@@ -1,3 +1,15 @@
+v2.0.3
+=================
+* Update colors design dependency
+
+v2.0.2
+==================
+* Updated dependencies
+
+v2.0.1
+==================
+* changing Gruntfile.js to gulpfile.js
+
 v1.1.4
 =================
 * set base font size to inuit default (15px) for rem calculations
