@@ -1,0 +1,10 @@
+{
+  "name": "ev-heatmap",
+  "_cacheHeaders": {
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "main": "index",
+  "_source": "https://github.build.ge.com/emerging-verticals/ev-heatmap",
+  "_target": "*",
+  "_originalSource": "https://github.build.ge.com/emerging-verticals/ev-heatmap"
+}
