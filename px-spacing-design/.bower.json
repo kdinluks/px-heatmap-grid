@@ -35,7 +35,7 @@
     "tag": "v0.3.18",
     "commit": "b7db53ef7a03d8c99d9c9ee3eb9c0d0e3ffcff21"
   },
-  "_source": "https://github.com/PredixDev/px-spacing-design.git",
-  "_target": "~0.3.0",
-  "_originalSource": "https://github.com/PredixDev/px-spacing-design.git"
+  "_source": "https://github.com/predixDev/px-spacing-design.git",
+  "_target": "~0.3.8",
+  "_originalSource": "px-spacing-design"
 }

@@ -32,7 +32,7 @@
     "tag": "v0.2.16",
     "commit": "da2ab159351c8e78bf72ac0a9f105924aacbfaa8"
   },
-  "_source": "https://github.com/PredixDev/px-box-sizing-design.git",
-  "_target": "~0.2.0",
-  "_originalSource": "https://github.com/PredixDev/px-box-sizing-design.git"
+  "_source": "https://github.com/predixDev/px-box-sizing-design.git",
+  "_target": "^0.2.0",
+  "_originalSource": "px-box-sizing-design"
 }

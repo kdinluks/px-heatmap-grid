@@ -52,11 +52,11 @@
     "px-colors-design": "^0.3.0",
     "px-mixins-design": "^0.3.0"
   },
-  "_release": "37f15d9650",
+  "_release": "c56bd49aed",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "37f15d9650ee2d1da6957713e88dd820ec37f469"
+    "commit": "c56bd49aedc1beb77c1c2395cdd6e3e6464b47c8"
   },
   "_source": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git",
   "_target": "*",

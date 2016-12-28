@@ -36,7 +36,7 @@
     "tag": "v0.3.18",
     "commit": "861f3f34d916e8ac98677b63708f4f5eecfd2ea7"
   },
-  "_source": "https://github.com/PredixDev/px-normalize-design.git",
-  "_target": "~0.3.0",
-  "_originalSource": "https://github.com/PredixDev/px-normalize-design.git"
+  "_source": "https://github.com/predixDev/px-normalize-design.git",
+  "_target": "^0.3.0",
+  "_originalSource": "px-normalize-design"
 }
