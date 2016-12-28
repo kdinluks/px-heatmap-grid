@@ -1,5 +1,6 @@
 {
   "name": "ev-heatmap",
+  "version": "0.1.0",
   "main": [
     "ev-heatmap.html"
   ],
@@ -52,14 +53,14 @@
     "px-colors-design": "^0.3.0",
     "px-mixins-design": "^0.3.0"
   },
-  "_release": "c56bd49aed",
+  "_release": "0.1.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "c56bd49aedc1beb77c1c2395cdd6e3e6464b47c8"
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "6a103d50c94aa8f015e26464b860923303a551e1"
   },
   "_source": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git",
-  "_target": "*",
+  "_target": "~0.1.0",
   "_originalSource": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git",
   "_direct": true
 }
