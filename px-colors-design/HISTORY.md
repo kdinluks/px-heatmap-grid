@@ -1,3 +1,12 @@
+v0.3.1
+==================
+* Removed color converter py script; need to manually update color behavior now.
+* Modified behavior to allow dev set color props to override defaults.
+
+v0.3.0
+==================
+* Add `dataVisColorTheming` shared behavior to unify theming methods across px-vis-* and px-simple-* charts
+
 v0.2.34
 ==================
 * fixed demo page

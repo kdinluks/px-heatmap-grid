@@ -1,0 +1,42 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="css/ev-heatmap-styles.html">
+<link rel="import" href="ev-heatmap-table.html">
+<link rel="import" href="ev-heatmap-scale.html">
+
+<!--
+The ev-heatmap is a highly visual and flexible interactive component for visualizing a data set based on a heat map scale of colors. The options to customize the component are detailed in the API reference below.
+### Usage
+
+    <ev-heatmap heatmap-data={{data}} scale-min="0" scale-max="100"></ev-heatmap>
+
+### Styling
+The following variables are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--ev-heatmap-start-color` | The color mapped to the scale min | `$gray1`
+`--ev-heatmap-end-color` | The color mapped to the scale max | `$alert-red`
+`--ev-heatmap-cell-min-width` | The min width for each cell | `50px`
+
+@element ev-heatmap
+@blurb A highly visual and flexible interactive component for visualizing a data set based on a heat map scale of colors
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="ev-heatmap">
+  <template>
+    <style include="ev-heatmap-styles"></style>
+    <div class="flex flex--row flex--left flex--top flex--stretch">
+      <ev-heatmap-table data="{{heatmapData}}" scale="{{scale}}" hide-row-header="{{hideRowHeader}}" hide-col-header="{{hideColHeader}}"></ev-heatmap-table>
+      <ev-heatmap-scale scale="{{scale}}" hidden$="{{hideScale}}"></ev-heatmap-scale>
+    </div>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="js/ev-heatmap.js"></script>

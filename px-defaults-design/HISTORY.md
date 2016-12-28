@@ -1,3 +1,14 @@
+v1.0.2
+==================
+* Updated dependencies
+
+v1.0.1
+==================
+* Move to style modules to demos
+v1.0.0
+==================
+* re-adding css vars with major bump
+
 v0.3.6
 ==================
 * removed css vars for patch.
