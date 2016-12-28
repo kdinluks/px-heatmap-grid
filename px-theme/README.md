@@ -37,19 +37,25 @@ From the component's directory...
 ```
 $ npm install
 $ bower install
-$ gulp sass
+$ grunt sass
 ```
 
 From the component's directory, to start a local server run:
 
 ```
-$ gulp serve
+$ grunt depserve
 ```
 
 Navigate to the root of that server (e.g. http://localhost:8080/) in a browser to open the API documentation page, with link to the "Demo" / working examples.
 
 
+### DevMode
+Devmode runs `grunt depserve` and `grunt watch` concurrently so that when you make a change to your source files and save them, your preview will be updated in any browsers you have opened and turned on LiveReload.
+From the component's directory run:
 
+```
+$ grunt devmode
+```
 
 ### GE Coding Style Guide
 [GE JS Developer's Guide](https://github.com/GeneralElectric/javascript)
