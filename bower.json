@@ -14,8 +14,7 @@
     "test"
   ],
   "dependencies": {
-    "polymer": "^1.6.1",
-    "ev-heatmap": "https://github.build.ge.com/emerging-verticals/ev-heatmap"
+    "polymer": "^1.6.1"
   },
   "devDependencies": {
     "px-forms-design": "^0.3.17",
