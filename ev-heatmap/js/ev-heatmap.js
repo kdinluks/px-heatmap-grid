@@ -64,6 +64,18 @@ Polymer({
     hideRowHeader: {
       type: Boolean,
       value: false
+    },
+
+    /**
+     * Use this property to set the aggregation type.
+     * The aggregation result is truncated at the number of
+     * significant digits + 1.
+     *
+     * @property aggregationType
+     */
+    aggregationType: {
+      type: String,
+      value: "disabled"
     }
   },
 
