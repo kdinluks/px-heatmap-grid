@@ -43,6 +43,6 @@
     "px-mixins-design": "^0.3.0",
     "px-theme": "~1.1.2",
     "px-polymer-font-awesome": "^1.1.0",
-    "ev-heatmap": "0.3.0"
+    "ev-heatmap": "~0.3.1"
   }
 }

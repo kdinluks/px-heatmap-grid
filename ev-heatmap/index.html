@@ -7,7 +7,7 @@
   <title>ev-heatmap Demo</title>
   <link rel="stylesheet" type="text/css" href="css/ev-heatmap-demo.css" />
   <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
 
   <link rel="import" href="../px-theme/px-theme-styles.html">
   <style include="px-theme-styles" is="custom-style"></style>
@@ -88,7 +88,7 @@
                 <div class="u-mb-">Color To: <input class="text-input" type="text" placeholder="{{item.scaleColorTo}}" value="{{item.scaleColorTo::input}}" /></div>
                 <div class="u-mb-">
                   <div class="u-mb-">Aggregation:</div>
-                  <select class="input--regular" value="{{item.aggregationType::input}}">
+                  <select class="input--regular" value="{{item.aggregationType::change}}">
                     <option value="disabled">Disabled</option>
                     <option value="Average">Average</option>
                     <option value="Std">Standard Deviation</option>

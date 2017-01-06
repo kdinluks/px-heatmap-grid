@@ -167,8 +167,8 @@ Polymer({
       var iCol = -1;
 
       newData.forEach(function(cell) {
-        iRow = Object.values(rows).indexOf(cell.row);
-        iCol = Object.values(cols).indexOf(cell.col);
+        iRow = rows.indexOf(cell.row);
+        iCol = cols.indexOf(cell.col);
         if (iCol === -1) {
           cols.push(cell.col);
           tableData.push([]);
@@ -182,7 +182,7 @@ Polymer({
         nColor = self.config != undefined ? self._calculateColor(cell.value) : [255, 255, 255];
         tableData[iCol][iRow] = {
           "value": cell.value,
-          "color": "" + nColor[0] + "," + nColor[1] + "," + nColor[2]
+          "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
         };
       });
 
@@ -197,20 +197,36 @@ Polymer({
   _calculateColor: function(value) {
     var config = this.config;
     var color = [];
-    return value < config.minValue ? config.minValue : value > config.maxValue ? config.maxValue : config.factors.map((x,i) => Math.round(x * value) + config.startColor[i]);
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // return value < config.minValue ? config.minValue : value > config.maxValue ? config.maxValue : config.factors.map((x,i) => Math.round(x * value) + config.startColor[i]);
+    return value < config.minValue ? config.minValue : value > config.maxValue ? config.maxValue : config.factors.map(function (x, i) {
+      return Math.round(x * value) + config.startColor[i];
+    })
   },
 
   _configChanged: function(newConfig, oldConfig) {
     if(newConfig !== oldConfig && newConfig) {
       var config = this.config;
       if(this.scaleColorFrom) {
-        config.startColor = this.scaleColorFrom.replace(/[^\d,]/g, '').split(',').map(x => x / 1);
+        // Arrow function only on ES6 - not in IE 10 - 11
+        // config.startColor = this.scaleColorFrom.replace(/[^\d,]/g, '').split(',').map(x => x / 1);
+        config.startColor = this.scaleColorFrom.replace(/[^\d,]/g, '').split(',').map(function (x) {
+          return x / 1;
+        });
       }
       if(this.scaleColorTo) {
-        config.endColor = this.scaleColorTo.replace(/[^\d,]/g, '').split(',').map(x => x / 1);
+        // Arrow function only on ES6 - not in IE 10 - 11
+        // config.endColor = this.scaleColorTo.replace(/[^\d,]/g, '').split(',').map(x => x / 1);
+        config.endColor = this.scaleColorTo.replace(/[^\d,]/g, '').split(',').map(function (x) {
+          return x / 1;
+        });
       }
       nValues = config.maxValue - config.minValue;
-      config.factors = config.endColor.map((c,i) => (c - config.startColor[i]) / nValues);
+      // Arrow function only on ES6 - not in IE 10 - 11
+      // config.factors = config.endColor.map((c,i) => (c - config.startColor[i]) / nValues);
+      config.factors = config.endColor.map(function(c,i) {
+        return (c - config.startColor[i]) / nValues;
+      });
       var data = [].concat(this.data);
       this.set("data", data);
     }
@@ -251,10 +267,24 @@ Polymer({
       "order": order
     };
     var temp = this.heatmapData[col].map(function(el, i) { return {"index": i, "value": el ? typeof el.value === "number" ? el.value : -Infinity : -Infinity}});
-    temp.sort((a, b) => order ? a.value - b.value : b.value - a.value);
-    var newData = this.heatmapData.map(hd => temp.map(t => hd[t.index]));
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // temp.sort((a, b) => order ? a.value - b.value : b.value - a.value);
+    temp.sort(function(a, b) {
+      return order ? a.value - b.value : b.value - a.value;
+    });
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // var newData = this.heatmapData.map(hd => temp.map(t => hd[t.index]));
+    var newData = this.heatmapData.map(function(hd) {
+      return temp.map(function(t) {
+        return hd[t.index];
+      });
+    });
     var rows = this.rows;
-    var newRows = temp.map(t => rows[t.index]);
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // var newRows = temp.map(t => rows[t.index]);
+    var newRows = temp.map(function(t) {
+      return rows[t.index];
+    });
     this.set("heatmapData", []);
     this.set("rows", []);
     this.set("heatmapData", newData);
@@ -270,10 +300,22 @@ Polymer({
     };
     var temp = this.heatmapData.map(function(el, i) { return {"index": i, "value": el[row] ? typeof el[row].value === "number" ? el[row].value : -Infinity : -Infinity}});
     var hd = this.heatmapData;
-    temp.sort((a,b) => order ? a.value - b.value : b.value - a.value);
-    var newData = temp.map(t => hd[t.index]);
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // temp.sort((a,b) => order ? a.value - b.value : b.value - a.value);
+    temp.sort(function(a,b) {
+      return order ? a.value - b.value : b.value - a.value;
+    });
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // var newData = temp.map(t => hd[t.index]);
+    var newData = temp.map(function(t) {
+      return hd[t.index];
+    });
     var cols = this.cols;
-    var newCols = temp.map(t => cols[t.index]);
+    // Arrow function only on ES6 - not in IE 10 - 11
+    // var newCols = temp.map(t => cols[t.index]);
+    var newCols = temp.map(function(t) {
+      return cols[t.index];
+    });
     this.set("cols", []);
     this.set("heatmapData", []);
     this.set("cols", newCols);
@@ -295,41 +337,156 @@ Polymer({
       this.set("showAggregation", true);
       var rowAggregation = [],
         colAggregation = [],
-        data = this.heatmapData.map(hd => hd.map(v => v.value)),
-        colDigits = data.map(hd => hd.map(a => a && typeof a === "number" ? (a + "").split(".")[1].length : 0).reduce((a,b,i) => i === 0 ? b : a > b ? b : a)),
-        rowDigits = data[0].map((hd,i) => data.map(a => a[i] && typeof a[i] === "number" ? (a[i] + "").split(".")[1].length : 0).reduce((a,b,i) => i === 0 ? b : a > b ? b : a));
+        // Arrow function only on ES6 - not in IE 10 - 11
+        // data = this.heatmapData.map(hd => hd.map(v => v.value)),
+        // colDigits = data.map(hd => hd.map(a => a && typeof a === "number" ? (a + "").split(".")[1].length : 0).reduce((a,b,i) => i === 0 ? b : a > b ? b : a)),
+        // rowDigits = data[0].map((hd,i) => data.map(a => a[i] && typeof a[i] === "number" ? (a[i] + "").split(".")[1].length : 0).reduce((a,b,i) => i === 0 ? b : a > b ? b : a));
+        data = this.heatmapData.map(function(hd) {
+          return hd.map(function(v) {
+            return v.value;
+          });
+        }),
+        colDigits = data.map(function(hd) {
+          return hd.map(function(a) {
+            return a && typeof a === "number" ? (a + "").split(".")[1].length : 0
+          }).reduce(function(a, b, i) {
+            return i === 0 ? b : a > b ? b : a;
+          });
+        }),
+        rowDigits = data[0].map(function(hd, i) {
+          return data.map(function(a) {
+            return a[i] && typeof a[i] === "number" ? (a[i] + "").split(".")[1].length : 0;
+          }).reduce(function(a, b, i) {
+            return i === 0 ? b : a > b ? b : a;
+          });
+        });
       this.set("rowAggregatedData", []);
       this.set("colAggregatedData", []);
       switch (n.toUpperCase()) {
         case "SUM":
-          rowAggregation = data[0].map((c,i) => data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0));
-          colAggregation = data.map(c => c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0));
+          // colAggregation = data.map(c => c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0));
+          rowAggregation = data[0].map(function(c, i) {
+            return data.reduce(function(a, b) {
+              return a + (b[i] && typeof b[i] === "number" ? b[i] : 0)
+            }, 0);
+          });
+          colAggregation = data.map(function(c) {
+            return c.reduce(function(a, b) {
+              return a + (b && typeof b === "number" ? b : 0);
+            }, 0);
+          });
           break;
         case "AVERAGE":
-          rowAggregation = data[0].map((c,i) => (data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0))/data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
-          colAggregation = data.map((c,i) => (c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0))/data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => (data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0))/data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
+          // colAggregation = data.map((c,i) => (c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0))/data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
+          rowAggregation = data[0].map(function(c,i) {
+            return (data.reduce(function(a, b) {
+              return a + (b[i] && typeof b[i] === "number" ? b[i] : 0)
+            }, 0)) / data.reduce(function(a, b) {
+                return a + (b[i] && typeof b[i] === "number" ? 1 : 0);
+              }, 0);
+          });
+          colAggregation = data.map(function(c, i) {
+            return c.reduce(function(a, b) {
+              return a + (b && typeof b === "number" ? b : 0);
+            }, 0) / data[i].reduce(function(a, b) {
+                return a + (b && typeof b === "number" ? 1 : 0);
+              }, 0);
+          });
           break;
         case "STD":
-          rowAggregation = data[0].map((c,i) => (data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0))/data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
-          rowAggregation = data[0].map((c,i) => Math.sqrt((data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? Math.pow((b[i] - rowAggregation[i]),2) : 0), 0))/data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0)));
-          colAggregation = data.map((c,i) => (c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0))/data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
-          colAggregation = data.map((c,i) => Math.sqrt((c.reduce((a,b) => a + (b && typeof b === "number" ? Math.pow((b - colAggregation[i]),2): 0), 0))/data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0)));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => (data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? b[i] : 0),0))/data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
+          // rowAggregation = data[0].map((c,i) => Math.sqrt((data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? Math.pow((b[i] - rowAggregation[i]),2) : 0), 0)) /data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0)));
+          // colAggregation = data.map((c,i) => (c.reduce((a,b) => a + (b && typeof b === "number" ? b : 0), 0))/data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
+          // colAggregation = data.map((c,i) => Math.sqrt((c.reduce((a,b) => a + (b && typeof b === "number" ? Math.pow((b - colAggregation[i]),2): 0), 0)) /data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0)));
+          rowAggregation = data[0].map(function(c,i) {
+            return (data.reduce(function(a, b) {
+                return a + (b[i] && typeof b[i] === "number" ? b[i] : 0)
+              }, 0)) / data.reduce(function(a, b) {
+                return a + (b[i] && typeof b[i] === "number" ? 1 : 0);
+              }, 0);
+          });
+          rowAggregation = data[0].map(function (c, i) {
+            return Math.sqrt((data.reduce(function (a,b) {
+              return a + (b[i] && typeof b[i] === "number" ? Math.pow((b[i] - rowAggregation[i]), 2) : 0);
+            }, 0)) / data.reduce(function (a, b) {
+                return a + (b[i] && typeof b[i] === "number" ? 1 : 0);
+              }, 0));
+          });
+          colAggregation = data.map(function(c, i) {
+            return c.reduce(function(a, b) {
+                return a + (b && typeof b === "number" ? b : 0);
+              }, 0) / data[i].reduce(function(a, b) {
+                return a + (b && typeof b === "number" ? 1 : 0);
+              }, 0);
+          });
+          colAggregation = data.map(function (c, i) {
+            return Math.sqrt((c.reduce(function (a, b) {
+              return a + (b && typeof b === "number" ? Math.pow((b - colAggregation[i]), 2) : 0);
+            }, 0)) / data[i].reduce(function (a, b) {
+                return a + (b && typeof b === "number" ? 1 : 0);
+              }, 0));
+          });
           break;
         case "MAX":
-          rowAggregation = data[0].map((c,i) => data.reduce((a,b,j) => typeof b[i] === "number" ? a > b[i] ? a : b[i] : a,-Infinity));
-          colAggregation = data.map(c => c.reduce((a,b,i) => typeof b === "number" ? a > b ? a : b : a, -Infinity));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => data.reduce((a,b,j) => typeof b[i] === "number" ? a > b[i] ? a : b[i] : a,-Infinity));
+          // colAggregation = data.map(c => c.reduce((a,b,i) => typeof b === "number" ? a > b ? a : b : a, -Infinity));
+          rowAggregation = data[0].map(function(c, i) {
+            return data.reduce(function(a, b) {
+              return typeof b[i] === "number" ? a > b[i] ? a : b[i] : a;
+            }, -Infinity);
+          });
+          colAggregation = data.map(function(c) {
+            return c.reduce(function(a, b) {
+              return typeof b === "number" ? a > b ? a : b : a;
+            }, -Infinity);
+          });
           break;
         case "MIN":
-          rowAggregation = data[0].map((c,i) => data.reduce((a,b,j) => typeof b[i] === "number" ? a < b[i] ? a : b[i] : a,Infinity));
-          colAggregation = data.map(c => c.reduce((a,b,i) => typeof b === "number" ? a < b ? a : b : a, Infinity));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => data.reduce((a,b,j) => typeof b[i] === "number" ? a < b[i] ? a : b[i] : a,Infinity));
+          // colAggregation = data.map(c => c.reduce((a,b,i) => typeof b === "number" ? a < b ? a : b : a, Infinity));
+          rowAggregation = data[0].map(function(c, i) {
+            return data.reduce(function(a, b) {
+              return typeof b[i] === "number" ? a < b[i] ? a : b[i] : a;
+            }, Infinity);
+          });
+          colAggregation = data.map(function(c) {
+            return c.reduce(function (a, b) {
+              return typeof b === "number" ? a < b ? a : b : a;
+            }, Infinity);
+          });
           break;
         default: //COUNT
-          rowAggregation = data[0].map((c,i) => data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
-          colAggregation = data.map((c,i) => data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
+          // Arrow function only on ES6 - not in IE 10 - 11
+          // rowAggregation = data[0].map((c,i) => data.reduce((a,b) => a + (b[i] && typeof b[i] === "number" ? 1 : 0),0));
+          // colAggregation = data.map((c,i) => data[i].reduce((a,b) => a + (b && typeof b === "number" ? 1 : 0),0));
+          rowAggregation = data[0].map(function (c, i) {
+            return data.reduce(function (a, b) {
+              return a + (b[i] && typeof b[i] === "number" ? 1 : 0);
+            }, 0);
+          });
+          colAggregation = data.map(function (c, i) {
+            return data[i].reduce(function (a, b) {
+              return a + (b && typeof b === "number" ? 1 : 0);
+            }, 0);
+          });
       }
 
-      colAggregation = colAggregation.map((v,i) => (v + "").substr(0,(v + "").split(".")[0].length + 2 + colDigits[i]));
-      rowAggregation = rowAggregation.map((v,i) => (v + "").substr(0,(v + "").split(".")[0].length + 2 + rowDigits[i]));
+      // Arrow function only on ES6 - not in IE 10 - 11
+      // colAggregation = colAggregation.map((v,i) => (v + "").substr(0,(v + "").split(".")[0].length + 2 + colDigits[i]));
+      // rowAggregation = rowAggregation.map((v,i) => (v + "").substr(0,(v + "").split(".")[0].length + 2 + rowDigits[i]));
+      colAggregation = colAggregation.map(function (v, i) {
+        return (v + "").substr(0, (v + "").split(".")[0].length + 2 + colDigits[i]);
+      });
+      rowAggregation = rowAggregation.map(function (v, i) {
+        return (v + "").substr(0, (v + "").split(".")[0].length + 2 + rowDigits[i]);
+      });
       this.set("rowAggregatedData", rowAggregation);
       this.set("colAggregatedData", colAggregation);
     }
