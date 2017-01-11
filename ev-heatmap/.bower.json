@@ -1,6 +1,6 @@
 {
   "name": "ev-heatmap",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "main": [
     "ev-heatmap.html"
   ],
@@ -25,7 +25,8 @@
   ],
   "dependencies": {
     "polymer": "^1.6.1",
-    "px-theme": "^1.1.2"
+    "px-theme": "^1.1.2",
+    "px-tooltip": "^0.9.19"
   },
   "devDependencies": {
     "px-forms-design": "^0.3.17",
@@ -54,13 +55,14 @@
     "px-colors-design": "^0.3.0",
     "px-mixins-design": "^0.3.0"
   },
-  "_release": "0.4.0",
+  "_release": "0.4.1",
   "_resolution": {
     "type": "version",
-    "tag": "0.4.0",
-    "commit": "9d5da21733309b9330478e8207eb821898c21dbb"
+    "tag": "0.4.1",
+    "commit": "358d1ff2b9d280d1802ec29224e24d89cf5403ec"
   },
   "_source": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git",
-  "_target": "~0.4.0",
-  "_originalSource": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git"
+  "_target": "~0.4.1",
+  "_originalSource": "https://github.build.ge.com/emerging-verticals/ev-heatmap.git",
+  "_direct": true
 }
