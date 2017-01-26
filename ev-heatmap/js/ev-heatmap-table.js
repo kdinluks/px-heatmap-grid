@@ -1,13 +1,10 @@
-/**
- * Created by ricardobreder on 12/22/16.
- */
 Polymer({
 
   is: 'ev-heatmap-table',
 
   properties: {
     /**
-     * This property holds the data.
+     * Holds the data.
      *
      * @property data
      */
@@ -19,7 +16,7 @@ Polymer({
     },
 
     /**
-     * This property holds the rendered data
+     * Holds the rendered data
      *
      * @property heatmapData
      */
@@ -29,7 +26,7 @@ Polymer({
     },
 
     /**
-     * This property holds the config info
+     * Holds the config info
      *
      * @property config
      */
@@ -45,7 +42,7 @@ Polymer({
       observer: '_configChanged'
     },
     /**
-     * This property holds the scale set by the user
+     * Holds the scale set by the user
      *
      * @property scale
      */
@@ -56,7 +53,7 @@ Polymer({
     },
 
     /**
-     * This property controls when to show/hide the Column Headers
+     * Controls when to show/hide the Column Headers
      *
      * @property hideColHeader
      */
@@ -67,7 +64,7 @@ Polymer({
     },
 
     /**
-     * This property controls when to show/hide the Row Headers
+     * Controls when to show/hide the Row Headers
      *
      * @property hideRowHeader
      */
@@ -78,7 +75,7 @@ Polymer({
     },
 
     /**
-     * This property controls when to show/hide the Values in the cells
+     * Controls when to show/hide the Values in the cells
      */
     hideValues: {
       type: Boolean,
@@ -86,7 +83,7 @@ Polymer({
     },
 
     /**
-     * This property sets the aggregation method
+     * Sets the aggregation method
      *
      * @property aggregationType
      */
@@ -97,7 +94,7 @@ Polymer({
     },
 
     /**
-     * This property controls when to show/hide the Aggregations
+     * Controls when to show/hide the Aggregations
      *
      * @property showAggregation
      */
@@ -108,7 +105,7 @@ Polymer({
     },
 
     /**
-     * This property contains all the available aggregation types
+     * Contains all the available aggregation types
      *
      * @property availableAggregations
      */
@@ -125,7 +122,7 @@ Polymer({
     },
 
     /**
-     * This property contains the Scale From color.
+     * Contains the Scale From color.
      *
      * @property scaleColorFrom
      */
@@ -135,7 +132,7 @@ Polymer({
     },
 
     /**
-     * This property contains the Scale To color.
+     * Contains the Scale To color.
      *
      * @property scaleColorTo
      */
@@ -145,6 +142,12 @@ Polymer({
     }
   },
 
+  /**
+   * After the component is attached to the DOM calls
+   * _dataChanged and _configChanged.
+   * Gets the maxWidth that was set using SASS and
+   * saves it in cellMaxWidth.
+   */
   attached: function() {
     this._dataChanged(this.data, []);
     this._configChanged(this.config, {});
@@ -158,6 +161,25 @@ Polymer({
     Polymer.dom(this.root).removeChild(tempEl);
   },
 
+  /**
+   * Observes the changes to data and creates the internal
+   * data structure used to render the heatmap table.
+   * Saves the initial column ordering in initialColsOrder.
+   * Saves the initial row ordering in initialRowsOrder.
+   * Triggers the aggregation calculation and the hide/show
+   * method to hide/show the titles according to the data.
+   *
+   * newData accepts 3 different data formats:
+   * Array<Object>
+   * Array<Array>
+   * Array<number>
+   *
+   * @param {Array<Object|Array|number>} newData The new heatmap data.
+   * @param {Array<Object|Array|number>} oldData The old heatmap data.
+   *
+   * @method _dataChanged
+   * @private
+   */
   _dataChanged: function(newData, oldData) {
     var self = this;
     if(newData != oldData && newData && newData.length) {
@@ -168,6 +190,15 @@ Polymer({
       var iRow = -1;
       var iCol = -1;
 
+      /**
+       * Handles the case where newData is an Array<Array>
+       * [
+       *   [0, 1, 2, 3, 4, 5, 6],
+       *   [7, 8, 9, 10, 11, 12, 13],
+       *   [14, 15, 16, 17, 18, 19, 20]
+       * ]
+       *
+       */
       if (Array.isArray(newData[0])) {
         newData.forEach(function (colArr, i) {
           colArr.forEach(function (value, j) {
@@ -175,20 +206,47 @@ Polymer({
             nColor = self.config != undefined ? self._calculateColor(value) : [255, 255, 255];
             tableData[j][i] = {
               "value": value,
-              "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
+              "color": nColor ? "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");" : ""
             };
           });
         });
       }
+      /**
+       * Handles the case where newData is an Array<number>
+       *
+       * [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+       *
+       */
       else if (typeof newData[0] !== "object" && typeof newData[0] !== "string") {
-        newData.forEach(function (value, i) {
+        newData.forEach(function (value) {
           nColor = self.config != undefined ? self._calculateColor(value) : [255, 255, 255];
           tableData.push( [{
             "value": value,
-            "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
+            "color": nColor ? "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");" : ""
           }]);
         });
       }
+      /**
+       * Handles the case where newData is an Array<Object>
+       * and the Object has the property values
+       *
+       * [
+       *   {
+       *     "row": "Row Title",
+       *     "values": [0, 1, 2, 3, 4, 5]
+       *   }
+       * ]
+       *
+       * or
+       *
+       * [
+       *   {
+       *     "col": "Column Title",
+       *     "values": [0, 1, 2, 3, 4, 5]
+       *   }
+       * ]
+       *
+       */
       else if (typeof newData[0] === "object" && newData[0].values) {
         newData.forEach(function (cell, i) {
           iRow = cell.row ? rows.indexOf(cell.row) : -2;
@@ -205,19 +263,32 @@ Polymer({
               if (i === 0 ) tableData.push([]);
               tableData[j].push({
                 "value": value,
-                "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
+                "color": nColor ? "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");" : ""
               });
             }
             else {
               if (j === 0 ) tableData.push([]);
               tableData[i].push({
                 "value": value,
-                "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
+                "color": nColor ? "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");" : ""
               });
             }
           });
         });
       }
+      /**
+       * Finally handles the last newData type where newData
+       * is an Array<Object>
+       *
+       * [
+       *   {
+       *     "row": "Row Title",
+       *     "col": "Column Title",
+       *     "value": 10
+       *   }
+       * ]
+       *
+       */
       else if (typeof newData[0] !== "string") {
         newData.forEach(function (cell) {
           iRow = rows.indexOf(cell.row);
@@ -234,7 +305,7 @@ Polymer({
           nColor = self.config != undefined ? self._calculateColor(cell.value) : [255, 255, 255];
           tableData[iCol][iRow] = {
             "value": cell.value,
-            "color": "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");"
+            "color": nColor ? "background-color: rgb(" + nColor[0] + "," + nColor[1] + "," + nColor[2] + ");" : ""
           };
         });
       };
@@ -247,6 +318,7 @@ Polymer({
       this._hideColHeaderChanged(false, true);
       this._hideRowHeaderChanged(false, true);
 
+      // Saves the initial Rows ordering in initialRowsOrder
       if (this.rows && this.rows.length) {
         this.initialRowsOrder = this.rows.map(function (el, i) {
           return {
@@ -255,7 +327,17 @@ Polymer({
           }
         });
       }
+      // If there's no row header titles uses the first column of data
+      else if (this.heatmapData && this.heatmapData.length) {
+        this.initialRowsOrder = this.heatmapData[0].map(function (value, i) {
+          return {
+            "index": i,
+            "value": value.value
+          }
+        });
+      }
 
+      // Saves the initial Columns ordering in initialColsOrder
       if (this.cols && this.cols.length) {
         this.initialColsOrder = this.cols.map(function (el, i) {
           return {
@@ -264,17 +346,50 @@ Polymer({
           }
         });
       }
+      // If there's no column header titles uses the first row of data
+      else if (this.heatmapData && this.heatmapData.length) {
+        this.initialColsOrder = this.heatmapData.map(function (col, i) {
+          return {
+            "index": i,
+            "value": col[0].value
+          }
+        })
+      }
     }
   },
 
+  /**
+   * Calculates the RGB color for a value based on the
+   * scale settings for the min and max values and the
+   * color from and to.
+   *
+   * @param {number} value The value to calculate the color for.
+   * @returns {Array} The RGB colors for the value. [R, G, B]
+   *
+   * @method _calculateColor
+   * @private
+   */
   _calculateColor: function(value) {
     var config = this.config;
-    var color = [];
-    return value < config.minValue ? config.minValue : value > config.maxValue ? config.maxValue : config.factors.map(function (x, i) {
-      return Math.round(x * value) + config.startColor[i];
+    return value < config.minValue ? null : value > config.maxValue ? null : config.factors.map(function (x, i) {
+      return Math.round(x * (value - config.minValue)) + config.startColor[i];
     })
   },
 
+  /**
+   * Observes the changes to config and calculates the
+   * RGB start and end colors for the scale and the
+   * multiplier factor to calculate the colors for
+   * values within the scale.
+   * Only if newConfig exists and is different from
+   * oldConfig.
+   *
+   * @param {Object} newConfig The new configuration.
+   * @param {Object} oldConfig The old configuration.
+   *
+   * @method _configChanged
+   * @private
+   */
   _configChanged: function(newConfig, oldConfig) {
     if(newConfig !== oldConfig && newConfig) {
       var config = this.config;
@@ -297,6 +412,18 @@ Polymer({
     }
   },
 
+  /**
+   * Observes the changes to scale and creates a new
+   * config Object with min and max values.
+   * Only if newScale exists and is different than
+   * oldScale.
+   *
+   * @param {Array<number>} newScale The new scale limits [min, max].
+   * @param {Array<number>} oldScale The old scale limits.
+   *
+   * @method _scaleChanged
+   * @private
+   */
   _scaleChanged: function(newScale, oldScale) {
     if(newScale !== oldScale && newScale && newScale.length === 2) {
       var config = this.config;
@@ -307,10 +434,34 @@ Polymer({
     }
   },
 
+  /**
+   * Gets the Column title for the Column Header
+   *
+   * @param {number} iCol The index of the column
+   * @returns {string} The column title
+   *
+   * @method _getColHeader
+   * @private
+   */
   _getColHeader: function(iCol) {
     return this._resizeHeader(this.cols[iCol]);
   },
 
+  /**
+   * Observes the changes to hideColHeader and hide/show
+   * the Column headers based on newValue and applies a css
+   * to the scale component and rows container to adjust their
+   * size.
+   * Only if newValue exists and is different than oldValue.
+   * Sets the column header visibility to false if there's no
+   * column header titles.
+   *
+   * @param {boolean} newValue Hide or don't the Column Headers
+   * @param {boolean} oldValue The old value.
+   *
+   * @method _hideColHeaderChanged
+   * @private
+   */
   _hideColHeaderChanged: function(newValue, oldValue) {
     var rowHeader = Polymer.dom(this.root).querySelector(".table-row-header");
     var scale = Polymer.dom(this.nextElementSibling.root).querySelector(".scale-container");
@@ -329,17 +480,27 @@ Polymer({
     }
   },
 
+  /**
+   * Sorts the column ascending, descending or resets the sort.
+   *
+   * @param {event} e The click event on the column header
+   *
+   * @method _sortCol
+   * @private
+   */
   _sortCol: function(e) {
     var col = e.model.index,
+      // 0 sort ascending, 1 sort descending 2 reset sorting
       order = this.sortColOrder ? this.sortColOrder.index === col ? this.sortColOrder.order === 2 ? 0 : ++this.sortColOrder.order : 0 : 0,
       _this = this,
-      temp, newData, rows, newRows;
+      temp, newData, rows, newRows, tempRowsReduced;
 
     this.sortColOrder = {
       "index": col,
       "order": order
     };
 
+    // Sort ascending / descending
     if (order < 2) {
       temp = this.heatmapData[col].map(function (el, i) {
         return {
@@ -351,13 +512,27 @@ Polymer({
         return order ? b.value - a.value : a.value - b.value;
       });
     }
+    // Reset sorting
     else {
       temp = [];
-      this.initialRowsOrder.forEach(function (r) {
-        temp.push({
-          "index": _this.rows.indexOf(r.value)
+      if(this.rows && this.rows.length && this.rows[0]) {
+        this.initialRowsOrder.forEach(function (r) {
+          temp.push({
+            "index": _this.rows.indexOf(r.value)
+          });
         });
-      });
+      }
+      // If there's no row header titles uses the first column of data
+      else {
+        tempRowsReduced = this.heatmapData[0].map(function (value) {
+          return value.value;
+        });
+        this.initialRowsOrder.forEach(function (r) {
+          temp.push({
+            "index": tempRowsReduced.indexOf(r.value)
+          });
+        });
+      }
     }
     newData = this.heatmapData.map(function(hd) {
       return temp.map(function(t) {
@@ -374,16 +549,26 @@ Polymer({
     this.set("rows", newRows);
   },
 
+  /**
+   * Sorts the row ascending, descending or resets the sort.
+   *
+   * @param {Object} e The click event on the row header
+   *
+   * @method _sortCol
+   * @private
+   */
   _sortRow: function(e) {
     var row = e.model.index,
+      // 0 sort ascending, 1 sort descending 2 reset sorting
       order = this.sortRowOrder ? this.sortRowOrder.index === row ? this.sortRowOrder.order === 2 ? 0 : ++this.sortRowOrder.order : 0 : 0,
       _this = this,
-      temp, hd, newData, cols, newCols;
+      temp, hd, newData, cols, newCols, tempColsReduced;
 
     this.sortRowOrder = {
       "index": row,
       "order": order
     };
+    // Sort ascending / descending
     if (order < 2) {
       temp = this.heatmapData.map(function (el, i) {
         return {
@@ -395,13 +580,27 @@ Polymer({
         return order ? b.value - a.value : a.value - b.value;
       });
     }
+    // Reset sorting
     else {
       temp = [];
-      this.initialColsOrder.forEach(function (r) {
-        temp.push({
-          "index": _this.cols.indexOf(r.value)
+      if (this.cols && this.cols.length && this.cols[0]) {
+        this.initialColsOrder.forEach(function (r) {
+          temp.push({
+            "index": _this.cols.indexOf(r.value)
+          });
         });
-      });
+      }
+      // If there's no column header titles uses the first row of data
+      else {
+        tempColsReduced = this.heatmapData.map(function (col) {
+            return col[0].value;
+          });
+          this.initialColsOrder.forEach(function (r) {
+            temp.push({
+              "index": tempColsReduced.indexOf(r.value)
+            });
+          });
+        }
     }
     hd = this.heatmapData;
     newData = temp.map(function(t) {
@@ -417,6 +616,17 @@ Polymer({
     this.set("heatmapData", newData);
   },
 
+  /**
+   * Determines whether to show the sorting icon or not
+   *
+   * @param {number} i The index of the column/row.
+   * @param {string} h col for column or row for row.
+   * @param {string} d The direction of the sorting, up or down.
+   * @returns {boolean} Show or don't the sorting icon.
+   *
+   * @method _sortingIcon
+   * @private
+   */
   _sortingIcon: function(i,h,d) {
     if (this.sortColOrder && h.toLowerCase() === 'col') {
       return this.sortColOrder.index === i ? d.toLowerCase() === 'up' ? this.sortColOrder.order === 0 ? false : true : this.sortColOrder.order === 1 ? false : true : true;
@@ -427,6 +637,21 @@ Polymer({
     return true;
   },
 
+  /**
+   * Observes the changes to aggregationType and calculates
+   * the aggregation of the heatmap data based on the
+   * aggregation type and saves the result in the
+   * rowAggregation and colAggregation properties.
+   * Only if n exists, is different than o data and n is
+   * one the following sum, max, min, average, std, count.
+   * If n exists and is invalid the aggregation is disabled.
+   *
+   * @param {string} n The new aggregation type.
+   * @param {string} o The old aggregation type.
+   *
+   * @method _calculateAggregation
+   * @private
+   */
   _calculateAggregation: function(n, o) {
     if(this.aggregationType && this.aggregationType != null && n && n !== o && this.availableAggregations && this.availableAggregations.indexOf(n.toUpperCase()) !== -1 && this.heatmapData.length > 0) {
       this.set("showAggregation", true);
@@ -437,6 +662,7 @@ Polymer({
             return v.value;
           });
         }),
+        // Find max decimal digits for the data in each column
         colDigits = data.map(function(hd) {
           return hd.map(function(a) {
             if (a && typeof a === "number") {
@@ -449,6 +675,7 @@ Polymer({
             return i === 0 ? b : a > b ? b : a;
           });
         }),
+        // Find the max decimal digits for the data in each row
         rowDigits = data[0].map(function(hd, i) {
           return data.map(function(a) {
             if (a[i] && typeof a[i] === "number") {
@@ -464,6 +691,7 @@ Polymer({
       this.set("rowAggregatedData", []);
       this.set("colAggregatedData", []);
       switch (n.toUpperCase()) {
+        // Sums the data on each row and each column
         case "SUM":
           rowAggregation = data[0].map(function(c, i) {
             return data.reduce(function(a, b) {
@@ -476,6 +704,7 @@ Polymer({
             }, 0);
           });
           break;
+        // Calculates the average for each row and each column
         case "AVERAGE":
           rowAggregation = data[0].map(function(c,i) {
             return (data.reduce(function(a, b) {
@@ -492,6 +721,7 @@ Polymer({
               }, 0);
           });
           break;
+        // Calculates the standard deviation for each row and each column
         case "STD":
           rowAggregation = data[0].map(function(c,i) {
             return (data.reduce(function(a, b) {
@@ -522,6 +752,7 @@ Polymer({
               }, 0));
           });
           break;
+        // Finds the max value on each row and each column
         case "MAX":
           rowAggregation = data[0].map(function(c, i) {
             return data.reduce(function(a, b) {
@@ -534,6 +765,7 @@ Polymer({
             }, -Infinity);
           });
           break;
+        // Finds the min value on each row and each column
         case "MIN":
           rowAggregation = data[0].map(function(c, i) {
             return data.reduce(function(a, b) {
@@ -546,6 +778,7 @@ Polymer({
             }, Infinity);
           });
           break;
+        // Count how many valid values (numbers) on each row and each column
         default: //COUNT
           rowAggregation = data[0].map(function (c, i) {
             return data.reduce(function (a, b) {
@@ -568,16 +801,35 @@ Polymer({
       this.set("rowAggregatedData", rowAggregation);
       this.set("colAggregatedData", colAggregation);
     }
+    // If n is invalid, disables the aggregation
     else if(this.aggregationType && o && n && o !== n && this.availableAggregations.indexOf(n.toUpperCase()) === -1) {
       this.set("aggregationType", "");
       this.set("showAggregation", false);
     }
   },
 
+  /**
+   * Gets the aggregation value for the specified column.
+   *
+   * @param {number} i The column index.
+   * @returns {string} The value as a string or an empty string.
+   *
+   * @method _getColAggregation
+   * @private
+   */
   _getColAggregation: function(i) {
     return this.colAggregatedData ? this.colAggregatedData[i] : '';
   },
 
+  /**
+   * Resizes the text based on the configured max width of the cell.
+   *
+   * @param {string} text The text to be resized.
+   * @returns {string} The resized text
+   *
+   * @method _resizeHeader
+   * @private
+   */
   _resizeHeader: function(text) {
     var cellMaxWidth = this.cellMaxWidth;
     if(cellMaxWidth !== "none") {
@@ -587,21 +839,70 @@ Polymer({
     return text;
   },
 
+  /**
+   * Observes the changes to scaleColorFrom and triggers
+   * _configChanged if newColor exists and is different
+   * than oldColor.
+   *
+   * @param {string} newColor The new color.
+   * @param {string} oldColor The old color.
+   *
+   * @method _scaleColorFromChanged
+   * @private
+   */
   _scaleColorFromChanged: function(newColor, oldColor) {
     if (newColor && newColor !== oldColor) {
       this._configChanged(this.config, {});
     }
   },
 
+  /**
+   * Observes the changes to scaleColorTo and triggers
+   * _scaleColorToChanged if newColor exists and is
+   * different than oldColor.
+   *
+   * @param {string} newColor The new color.
+   * @param {string} oldColor The old color.
+   *
+   * @method _scaleColorToChanged
+   * @private
+   */
   _scaleColorToChanged: function(newColor, oldColor) {
     if (newColor && newColor !== oldColor) {
       this._configChanged(this.config, {});
     }
   },
 
+  /**
+   * Observes the changes to hideRowHeader and sets
+   * the row header visibility to false when
+   * there' no header titles.
+   *
+   * @param {boolean} nHide Hide or show the header titles.
+   * @param {boolean} oHide The old value.
+   *
+   * @method _hideRowHeaderChanged
+   * @private
+   */
   _hideRowHeaderChanged: function(nHide, oHide) {
-    if (nHide !== undefined && nHide === false && nHide !== oHide && this.rows && (!this.rows.length || !this.rows[0])) this.hideRowHeader = true;
+    if (nHide !== undefined && nHide === false && nHide !== oHide && this.rows && (!this.rows.length || !this.rows[0])) {
+      this.hideRowHeader = true;
+    }
+    else if(!nHide && oHide) {
+      this.hideRowHeader = false;
+    }
   },
+
+  /**
+   * Observes the changes to showAggregation and triggers
+   * the aggregation calculation for rows.
+   * Trigger the aggregation calculation for the columns
+   * only when there're column header titles.
+   *
+   * @param {string} nShow The aggregation type to show.
+   * @param {string} oShow The aggregation type shown before.
+   * @private
+   */
   _showAggregationChanged: function(nShow, oShow) {
     if (nShow !== undefined && nShow != oShow) {
       this.set('showRowAggregation', nShow);
