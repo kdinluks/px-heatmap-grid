@@ -132,7 +132,7 @@ $inuit-global-border-box            : false !default;
           &:nth-last-child(-n+4):first-child,
           &:nth-last-child(-n+4):first-child ~ .layout__item {
             flex-basis: calculateRem($inuit-layout-min-width * 1.5);
-            @include media-query(desk-wide) {
+            @include media-query(desk) {
               flex-basis: 0;
             }
           }
@@ -140,12 +140,12 @@ $inuit-global-border-box            : false !default;
           &:nth-last-child(-n+3):first-child,
           &:nth-last-child(-n+3):first-child ~ .layout__item {
             flex-basis: calculateRem($inuit-layout-min-width * 2);
-            @include media-query(desk-wide) {
+            @include media-query(desk) {
               flex-basis: 0;
             }
           }
 
-          @include media-query(desk-wide) {
+          @include media-query(desk) {
             flex-basis: 0;
           }
 

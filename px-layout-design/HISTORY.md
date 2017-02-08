@@ -1,3 +1,23 @@
+v0.4.4
+==================
+* rebuilt sass with new colors
+
+v0.4.3
+==================
+* changing ghp.sh to account for Alpha releases
+
+v0.4.2
+==================
+* fix breakpoint per #4
+
+v0.4.1
+==================
+* Update missed design dependencies
+
+v0.4.0
+==================
+* Updated dependencies
+
 v0.3.22
 ==================
 * Move to style modules to demos
