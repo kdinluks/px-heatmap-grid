@@ -1,214 +1,99 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>px-tabs Demo</title>
-  <link rel="stylesheet" type="text/css" href="css/px-tabs-demo.css"/>
-  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Predix UI</title>
 
-  <link rel="import" href="../px-theme/px-theme-styles.html">
-  <style include="px-theme-styles" is="custom-style"></style>
+    <!--
+      Fast bootstrapping of the webcomponents-lite library. Only loads the library
+      if the browser doesn't natively support web components.
+    -->
+    <script type="text/javascript">
+    (function() {
+      'use strict';
 
-  <link rel="import" href="../px-api-viewer/px-api-viewer.html" />
-  <link rel="import" href="px-tab-set.html" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-  <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
-  <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
-  <link rel="import" href="../px-dropdown/px-dropdown.html" />
-</head>
-
-<body>
-
-  <!-- Wrap elements with auto-binding template to -->
-  <!-- allow use of Polymer bindings in main document -->
-  <template id="just-for-demo" is="dom-bind" >
-
-    <!-- discription -->
-    <div class="hero u-p++ text--shadow">
-      <a class="actionable flex flex--right flex--middle" href="https://github.com/PredixDev/px-tabs" target="_blank"><iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github</a>
-  		<h1 class="delta">px-tabs</h1>
-      <div class="description-text">
-    		<p>
-          A classic design for organizing content on multiple tabs.
-    		</p>
-      </div>
-  		<div class="flex">
-  			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-tabs.svg?style=flat-square" alt="Travis"/>
-  			<img class="u-mr--" src="https://img.shields.io/bower/v/px-tabs.svg?style=flat-square" alt="Bower"/>
-  			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-tabs.svg?style=flat-square" alt="Issues"/>
-  		</div>
-  	</div>
-
-    <!-- mega demo -->
-    <div style="position: relative;" class="u-pb++ flex flex--col" id="defaultTab">
-      <div class="tabContainer u-pt++ u-pl++">
-        <px-tab-set selected="{{selected}}" bare no-bottom-border>
-          <template is="dom-repeat" items="{{optionsArray}}">
-            <px-tab>Option {{indexPlusOne(index)}}</px-tab>
-          </template>
-        </px-tab-set>
-      </div>
-      <px-tab-pages selected="{{selected}}">
-        <template is="dom-repeat" items="{{optionsArray}}">
-          <section class="tab-page">
-            <div class="mega-demo flex u-ph++ u-pb++">
-
-              <div class="demoContainer u-mt+">
-                <!-- demo -->
-                <div class="flex flex--col">
-                  <div class="demo u-p+">
-
-                    <div style="position:relative;">
-
-                      <template is="dom-if" if="{{_isFirstTab(index)}}">
-                        <h4>This is a Polymer component that implements a set of custom tabs:</h4>
-                        <px-tab-set id="tab-set" selected="{{item.selected}}">
-                          <px-tab id="tab1">Bengal Tiger</px-tab>
-                          <px-tab id="tab2">Black Spider Monkey</px-tab>
-                          <px-tab id="tab3">Sumatran Elephant</px-tab>
-                          <px-tab id="tab4">Ganges River Dolphin</px-tab>
-                        </px-tab-set>
-                        <px-tab-pages selected="{{item.selected}}">
-                          <div>
-                            <p>The Bengal tiger is found primarily in India with smaller populations in Bangladesh, Nepal, Bhutan, China and Myanmar. It is the most
-                              numerous of all tiger subspecies with more than 2,500 left in the wild. The creation of India’s tiger reserves in the 1970s helped to
-                              stabilize numbers, but poaching to meet a growing demand from Asia in recent years has once again put the Bengal tiger at risk. The mangroves
-                              of the Sundarbans—shared between Bangladesh and India—are the only mangrove forests where tigers are found. The Sundarbans are increasingly
-                              threatened by sea level rise as a result of climate change.</p>
-                          </div>
-                          <div><p>The black spider monkey—also known as the Guiana or red-faced spider monkey—is found in eastern South America in areas north of the Amazon River. They are one of seven species of spider monkeys found in Latin America and one of the largest primate species in South America.</p></div>
-                          <div><p>Sumatran elephants feed on a variety of plants and deposit seeds wherever they go, contributing to a healthy forest ecosystem. They also share their lush forest habitat with several other endangered species, such as the Sumatran rhino, tiger, and orangutan, and countless other species that all benefit from an elephant population that thrives in a healthy habitat.</p></div>
-                          <div><p>Dolphins are one of the oldest creatures in the world along with some species of turtles, crocodiles and sharks. The Ganges river dolphin was officially discovered in 1801. Ganges river dolphins once lived in the Ganges-Brahmaputra-Meghna and Karnaphuli-Sangu river systems of Nepal, India, and Bangladesh. But the species is extinct from most of its early distribution ranges.</p></div>
-                        </px-tab-pages>
-                      </template>
-
-                      <template is="dom-if" if="{{_isSecondTab(index)}}">
-                        <h4>This is a Polymer component that implements a set of custom tabs with the bare option</h4>
-                        <px-tab-set bare id="tab-set-bare" selected="{{item.selected}}">
-                          <px-tab id="tab1-bare">Bengal Tiger</px-tab>
-                          <px-tab id="tab2-bare">Black Spider Monkey</px-tab>
-                          <px-tab id="tab3-bare">Sumatran Elephant</px-tab>
-                          <px-tab id="tab4-bare">Ganges River Dolphin</px-tab>
-                        </px-tab-set>
-                        <px-tab-pages selected="{{item.selected}}">
-                          <div>
-                            <p>The Bengal tiger is found primarily in India with smaller populations in Bangladesh, Nepal, Bhutan, China and Myanmar.</p>
-                          </div>
-                          <div><p>The black spider monkey—also known as the Guiana or red-faced spider monkey—is found in eastern South America in areas north of the Amazon River. </p></div>
-                          <div><p>Sumatran elephants feed on a variety of plants and deposit seeds wherever they go, contributing to a healthy forest ecosystem.</p></div>
-                          <div><p>Dolphins are one of the oldest creatures in the world along with some species of turtles, crocodiles and sharks.</p></div>
-                        </px-tab-pages>
-                      </template>
-
-                      <template is="dom-if" if="{{_isThirdTab(index)}}">
-                        <h4>This is a Polymer component that implements a set of custom tabs with the bare option, and no bottom border</h4>
-                        <px-tab-set bare id="tab-set-bare" selected="{{item.selected}}" no-bottom-border>
-                          <px-tab id="tab1-bare">Bengal Tiger</px-tab>
-                          <px-tab id="tab2-bare">Black Spider Monkey</px-tab>
-                          <px-tab id="tab3-bare">Sumatran Elephant</px-tab>
-                          <px-tab id="tab4-bare">Ganges River Dolphin</px-tab>
-                        </px-tab-set>
-                        <px-tab-pages selected="{{item.selected}}">
-                          <div>
-                            <p>The Bengal tiger is found primarily in India with smaller populations in Bangladesh, Nepal, Bhutan, China and Myanmar.</p>
-                          </div>
-                          <div><p>The black spider monkey—also known as the Guiana or red-faced spider monkey—is found in eastern South America in areas north of the Amazon River. </p></div>
-                          <div><p>Sumatran elephants feed on a variety of plants and deposit seeds wherever they go, contributing to a healthy forest ecosystem.</p></div>
-                          <div><p>Dolphins are one of the oldest creatures in the world along with some species of turtles, crocodiles and sharks.</p></div>
-                        </px-tab-pages>
-                      </template>
-                    </div>
-                  </div>
-                  <div>
-                    <px-demo-snippet
-                      element-properties={{item}}
-                      element-name="px-tabs">
-                    </px-demo-snippet>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="apiContainer">
-              <div class="flex flex--col api u-mt++" >
-                <div>
-                  <px-api-viewer source="px-tab-set"></px-api-viewer>
-                </div>
-              </div>
-            </div>
-          </section>
-        </template>
-      </px-tab-pages>
-    </div>
-  <footer class="footer flex flex--center">
-    <div class="footer__container u-pv++">
-      <div>
-        <a href="https://ge.com/digital" >
-          <img src="monogram-wdmk.png" alt="GE Monogram" class="footer__img">
-        </a>
-      </div>
-      <div class="footer__list">
-        <ul class="list-inline list-inline--delimited">
-          <li>
-            <a href="http://predix.io/legal" class="footer__list--lnk">Legal</a>
-          </li>
-          <li>
-            <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
-          </li>
-          <li>Copyright &copy; 2016 General Electric Company. All rights reserved.</li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-</template>
-<script>
-window.addEventListener('WebComponentsReady', function() {
-  var template = document.querySelector('template[is=dom-bind]'),
-      items = [
-        {"key":"one","val":"light"},
-        {"key":"two","val":"dark"}
-      ],
-      optionsArray = [
-        {
-          "lightDomContent": '<px-tab id="tab1">Bengal Tiger</px-tab><px-tab id="tab2">Black Spider Monkey</px-tab><px-tab id="tab3">Sumatran Elephant</px-tab><px-tab id="tab4">Ganges River Dolphin</px-tab>',
-          "selected": "1"
-        },
-        {
-          "lightDomContent": '<px-tab id="tab1">Bengal Tiger</px-tab><px-tab id="tab2">Black Spider Monkey</px-tab><px-tab id="tab3">Sumatran Elephant</px-tab><px-tab id="tab4">Ganges River Dolphin</px-tab>',
-          "bare": true,
-          "selected": "1"
-        },
-        {
-          "lightDomContent": '<px-tab id="tab1">Bengal Tiger</px-tab><px-tab id="tab2">Black Spider Monkey</px-tab><px-tab id="tab3">Sumatran Elephant</px-tab><px-tab id="tab4">Ganges River Dolphin</px-tab>',
-          "bare": true,
-          "noBottomBorder": true,
-          "selected": "1"
+      var onload = function() {
+        // For native Imports, manually fire WebComponentsReady so user code
+        // can use the same code path for native and polyfill'd imports.
+        if (!window.HTMLImports) {
+          document.dispatchEvent(
+            new CustomEvent('WebComponentsReady', {bubbles: true})
+          );
         }
-      ],
-      indexPlusOne = function(num) {
-        return num + 1;
-      },
-      _isFirstTab = function(index) {
-        return index === 0;
-      },
-      _isSecondTab = function(index) {
-        return index === 1;
-      },
-      _isThirdTab = function(index) {
-        return index === 2;
       };
 
-  template.selected = "0";
-  template.optionsArray = optionsArray;
-  template.indexPlusOne = indexPlusOne;
-  template.items = items;
-  template._isFirstTab = _isFirstTab;
-  template._isSecondTab = _isSecondTab;
-  template._isThirdTab = _isThirdTab;
+      var webComponentsSupported = (
+        'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+      );
 
-});
-</script>
+      if (!webComponentsSupported) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '../webcomponentsjs/webcomponents-lite.min.js';
+        script.onload = onload;
+        document.head.appendChild(script);
+      } else {
+        onload();
+      }
+    })();
+    </script>
 
-</body>
+    <!--
+      Load the Polymer library.
+    -->
+    <link rel="import" href="../polymer/polymer.html" />
+
+    <!--
+      Load the light theme (default theme).
+    -->
+    <link rel="import" href="../px-theme/px-theme-styles.html">
+    <style include="px-theme-styles" is="custom-style"></style>
+
+    <!--
+      Asynchronously import the px-catalog element, which is the entrypoint
+      for our application.
+    -->
+    <link
+        async
+        id="main-element-import"
+        rel="import"
+        href="demo/index.html">
+
+    <!--
+      Load the app icon and manifest for Android devices.
+    -->
+    <link defer rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!--
+      Basic page styles.
+    -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Elements wait on the page and are upgraded after demo/index.html is loaded. -->
+    <local-element-demo></local-element-demo>
+
+    <!--
+      Attempt to register a service worker with the correct scope. Fail quietly
+      if this doesn't work, but log the result to the console.
+    -->
+    <script type="text/javascript">
+      // if ('serviceWorker' in navigator) {
+      //   navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+      //     // Registration was successful
+      //     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      //   }).catch(function(err) {
+      //     // registration failed :(
+      //     console.log('ServiceWorker registration failed: ', err);
+      //   });
+      // }
+    </script>
+  </body>
 </html>

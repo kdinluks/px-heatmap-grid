@@ -1,6 +1,6 @@
 {
   "name": "px-forms-design",
-  "version": "0.3.29",
+  "version": "1.2.3",
   "authors": [
     "General Electric",
     "Nathan Smith"
@@ -18,26 +18,31 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "sass",
+    "*.md",
+    "scripts",
+    "github",
+    "gulpfile.js",
+    "monogram-wdmk.png",
+    "wct.conf.json",
     "test",
-    "tests"
+    "OSS_Notice.pdf"
   ],
   "dependencies": {
-    "px-colors-design": "^0.2.20",
-    "px-defaults-design": "^0.3.0"
+    "px-colors-design": "^0.3.0",
+    "px-defaults-design": "^1.0.2"
   },
   "devDependencies": {
-    "px-starter-kit-design": "~0.6.0",
-    "px-sass-doc": "^0.2.10",
-    "px-buttons-design": "^0.4.32",
-    "px-list-bare-design": "^0.2.15"
+    "px-starter-kit-design": "^0.7.0",
+    "px-sass-doc": "^0.4.3"
   },
-  "_release": "0.3.29",
+  "_release": "1.2.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.3.29",
-    "commit": "e70d74d0b874c2164b6d277a2d7260228f239919"
+    "tag": "v1.2.3",
+    "commit": "04d707916168152d26067a3240ef41e22c5079bf"
   },
   "_source": "https://github.com/predixDev/px-forms-design.git",
-  "_target": "^0.3.17",
+  "_target": "^1.1.0",
   "_originalSource": "px-forms-design"
 }

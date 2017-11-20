@@ -1,77 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>px-list-bare-design Demo</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Predix UI</title>
 
-  <!-- Boilerplate: Import Libraries -->
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../px-theme/px-theme-styles.html" />
-  <style include="px-theme-styles" is="custom-style"></style>
-  <link rel="import" href="../px-sass-doc/px-sass-doc.html" />
+    <!--
+      Fast bootstrapping of the webcomponents-lite library. Only loads the library
+      if the browser doesn't natively support web components.
+    -->
+    <script type="text/javascript">
+    (function() {
+      'use strict';
 
-  <!-- 0: Import Module Styles -->
-  <link rel="import" href="css/px-list-bare-design-demo-styles.html" />
-  <style include="px-list-bare-design-demo-styles" is="custom-style"></style>
+      var onload = function() {
+        // For native Imports, manually fire WebComponentsReady so user code
+        // can use the same code path for native and polyfill'd imports.
+        if (!window.HTMLImports) {
+          document.dispatchEvent(
+            new CustomEvent('WebComponentsReady', {bubbles: true})
+          );
+        }
+      };
 
-</head>
-<body>
-<template id="just-for-demo" is="dom-bind">
+      var webComponentsSupported = (
+        'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+      );
 
-<!-- 1: Describe Module -->
-<px-sass-doc
-  module-name="px-list-bare-design"
-  description="The Predix UI List Bare module simply removes bullets and indents from lists."
-  layer="objects"
-  sassdoc-path="sassdoc.json"
-  dependencies='[
-    "https://github.com/PredixDev/px-defaults-design"
-  ]'
-  selected-options="{{selectedOptions}}">
+      if (!webComponentsSupported) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '../webcomponentsjs/webcomponents-lite.min.js';
+        script.onload = onload;
+        document.head.appendChild(script);
+      } else {
+        onload();
+      }
+    })();
+    </script>
 
-<!-- 2: Set Options -->
-<!-- N/A -->
+    <!--
+      Load the Polymer library.
+    -->
+    <link rel="import" href="../polymer/polymer.html" />
 
-<!-- 3: Make HTML Demo -->
-<section data-slot="demoHTML">
+    <!--
+      Load the light theme (default theme).
+    -->
+    <link rel="import" href="../px-theme/px-theme-styles.html">
+    <style include="px-theme-styles" is="custom-style"></style>
 
-<ul class="list-bare">
-  <li>List Item</li>
-  <li>List Item</li>
-  <li>List Item</li>
-</ul>
+    <!--
+      Asynchronously import the px-catalog element, which is the entrypoint
+      for our application.
+    -->
+    <link
+        async
+        id="main-element-import"
+        rel="import"
+        href="demo/index.html">
 
-</section>
+    <!--
+      Load the app icon and manifest for Android devices.
+    -->
+    <link defer rel="icon" href="favicon.ico" type="image/x-icon" />
 
-<!-- 4: Set Import Slot -->
-<section data-slot="import">
-@import "px-list-bare-design/_objects.list-bare.scss";
-</section>
+    <!--
+      Basic page styles.
+    -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
 
+  <body>
+    <!-- Elements wait on the page and are upgraded after demo/index.html is loaded. -->
+    <local-element-demo></local-element-demo>
 
-<section data-slot="usage">
-```
-<ul class="list-bare">
-  <li>List Item</li>
-  <li>List Item</li>
-  <li>List Item</li>
-</ul>
-```
-</section>
-
-</px-sass-doc>
-</template>
-
-<!-- 6: Handle selectedOptions, update demo -->
-<script>
-  var template = document.querySelector('template[is=dom-bind]');
-
-  Polymer.Base.async(function() {
-    template.fire('px-sass-doc-demo-updated',{});
-  }, 20);
-</script>
-
-</body>
+    <!--
+      Attempt to register a service worker with the correct scope. Fail quietly
+      if this doesn't work, but log the result to the console.
+    -->
+    <script type="text/javascript">
+      // if ('serviceWorker' in navigator) {
+      //   navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+      //     // Registration was successful
+      //     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      //   }).catch(function(err) {
+      //     // registration failed :(
+      //     console.log('ServiceWorker registration failed: ', err);
+      //   });
+      // }
+    </script>
+  </body>
 </html>

@@ -1,3 +1,35 @@
+v0.3.2
+==================
+* Checks for the type of a variable before calling a native method from `String.prototype` to stop the method from throwing an error on an unexpected file input, helps when we are crawling a import graph with class-style Polymer constructors
+
+v0.3.1
+==================
+* fixed small bug in filtering events.
+ 
+v0.3.0
+==================
+* added the ability to filter out events by name as well.
+
+v0.2.0
+==================
+* added the ability to filter out or change description of properties for the api viewer.
+
+v0.1.17
+==================
+* mapped --iron-doc-viewer variables to --iron-doc-viewer variables
+
+v0.1.16
+==================
+* added px-theme-style import
+
+v0.1.15
+==================
+* Update colors design to pick up new colors
+
+v0.1.14
+==================
+* changing ghp.sh to account for Alpha releases
+
 v0.1.13
 ==================
 * Updated dependencies

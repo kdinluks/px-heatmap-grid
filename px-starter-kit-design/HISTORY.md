@@ -1,3 +1,27 @@
+v0.7.7
+==================
+* fix docs
+
+v0.7.5
+==================
+* add index-dark-theme
+
+v0.7.3
+==================
+* updated 'px-flexbox-design' to ^0.5.0
+
+v0.7.2
+==================
+* changing ghp.sh to account for Alpha releases
+
+v0.7.1
+==================
+* Bump colors design
+
+v0.7.0
+==================
+* Updated dependencies
+
 v0.6.5
 ==============================
 * futher fixes to travis process.

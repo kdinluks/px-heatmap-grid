@@ -25,7 +25,7 @@ $inuit-list-ui-border-style     : solid !default;
 /// Border color
 /// @group px-list-ui-design:variables:style
 /// @type Color [default]
-$inuit-list-ui-border-color     : $gray4 !default;
+$inuit-list-ui-border-color     : var(--px-list-ui-border-color, $gray4) !default;
 
 /// Enable list-uis with tiny padding?
 /// @group px-list-ui-design:variables:flag

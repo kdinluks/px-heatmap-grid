@@ -41,6 +41,6 @@
     "commit": "eb29f14d46161dbc1f2125162235669feda1bc0f"
   },
   "_source": "https://github.com/PredixDev/px-spinner.git",
-  "_target": "~0.5.3",
-  "_originalSource": "https://github.com/PredixDev/px-spinner.git"
+  "_target": "^0.5.3",
+  "_originalSource": "px-spinner"
 }

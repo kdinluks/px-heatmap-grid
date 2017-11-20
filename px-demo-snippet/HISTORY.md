@@ -1,3 +1,98 @@
+v0.6.21
+==================
+* switch codepen url to https
+
+v0.6.20
+==================
+* override prism style for token entity class
+
+v0.6.19
+==================
+* added a try/catch for json stringify
+
+v0.6.18
+==================
+* Updated to cool grays
+
+v0.6.17
+==================
+* Update colors design to pick up new colors
+
+v0.6.16
+==================
+* changing ghp.sh to account for Alpha releases
+
+v0.6.15
+==================
+* added background css variable and updated style of the codepen icon
+
+v0.6.14
+==================
+* Updated dependencies
+
+v0.6.13
+==================
+* changing browser in wct testing from safari 8 to safari 10 on elcapitan
+
+v0.6.12
+==================
+* changing all devDeps to ^
+
+v0.6.11
+==================
+* Update px-theme to 2.0.1 and update test fixtures
+
+
+v0.6.10
+==================
+* changing Gruntfile.js to gulpfile.js
+
+
+v0.6.9
+==================
+* removed unnecessary px-theme-styles import in px-demo-snippet.html and bower updated px-clipboard
+
+v0.6.8
+==================
+* bumping px-clipboard to fill container
+
+v0.6.7
+=================
+* fixed travis
+
+v0.6.6
+=================
+* add 3 includes properties to API documentation
+
+v0.6.5
+=================
+* had hover state and title to codepen/edit icon
+
+v0.6.4
+=================
+* added shadow dom support to the snippet highlighting.
+
+v0.6.4
+=================
+* added shadow dom support to the snippet highlighting.
+
+v0.6.3
+=================
+* brought back the span checker until we have a better solution.
+
+v0.6.2
+=================
+* changed timeout to 250 for prism-highlighter
+
+v0.6.1
+=================
+* added codeLink attribute for components that can't compile there own codepen e.g. px-vis
+
+v0.6.0
+=================
+* added a setTimeout to prism highlighter until we figure out how to listen to the event listener being registered on that element.
+* added the attributes scriptsIncludes, linksIncludes, and polygitIncludes.
+
 v0.5.3
 =================
 * changed prism highlighter checker from a simple string "<span" to see if the element has been registered on the page.

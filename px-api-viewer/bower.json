@@ -1,6 +1,6 @@
 {
   "name": "px-api-viewer",
-  "version": "0.1.13",
+  "version": "0.3.2",
   "main": [
     "px-api-viewer.html"
   ],
@@ -20,10 +20,11 @@
     "polymer": "^1.6.0",
     "px-theme": "^2.0.1",
     "hydrolysis": "~1.24.1",
-    "iron-doc-viewer": "~1.0.15",
-    "px-polymer-font-awesome": "^1.1.0"
+    "px-polymer-font-awesome": "^1.1.0",
+    "iron-doc-viewer": "^1.1.0"
   },
   "devDependencies": {
-    "px-starter-kit-design": "^0.7.0"
+    "px-starter-kit-design": "^0.7.0",
+    "iron-component-page": "^1.1.8"
   }
 }

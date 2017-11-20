@@ -1,6 +1,6 @@
 {
   "name": "px-normalize-design",
-  "version": "0.3.18",
+  "version": "0.4.4",
   "authors": [
     "General Electric",
     "Harry Roberts <harry@csswizardry.com>",
@@ -20,23 +20,32 @@
     "node_modules",
     "bower_components",
     "sass",
-    ".github",
-    "OSS_Notice.pdf"
+    "*.md",
+    "scripts",
+    "github",
+    "gulpfile.js",
+    "monogram-wdmk.png",
+    "wct.conf.json",
+    "test",
+    "OSS_Notice.pdf",
+    "*.png",
+    "CONTRIBUTING.md",
+    "LICENSE.md"
   ],
   "dependencies": {
-    "px-defaults-design": "~0.3.0"
+    "px-defaults-design": "^1.0.2"
   },
   "devDependencies": {
-    "px-sass-doc": "^0.2.10",
-    "px-starter-kit-design": "~0.6.0"
+    "px-starter-kit-design": "^0.7.0",
+    "px-sass-doc": "^0.4.4"
   },
-  "_release": "0.3.18",
+  "_release": "0.4.4",
   "_resolution": {
     "type": "version",
-    "tag": "v0.3.18",
-    "commit": "861f3f34d916e8ac98677b63708f4f5eecfd2ea7"
+    "tag": "v0.4.4",
+    "commit": "ef5a5c08bcdfa1547b1a76c4ba4fc34e6110d88d"
   },
   "_source": "https://github.com/predixDev/px-normalize-design.git",
-  "_target": "^0.3.0",
+  "_target": "^0.4.0",
   "_originalSource": "px-normalize-design"
 }
