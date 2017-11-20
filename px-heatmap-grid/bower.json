@@ -1,0 +1,37 @@
+{
+  "name": "px-heatmap-grid",
+  "version": "0.5.2",
+  "main": [
+    "px-heatmap-grid.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "gulpfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "px-heatmap-grid.png",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "README.md",
+    ".jshintrc",
+    ".editorconfig"
+  ],
+  "dependencies": {
+    "polymer": "^1.6.1",
+    "px-theme": "^2.0.4",
+    "px-tooltip": "^0.10.14",
+    "px-spinner": "^0.5.3",
+    "px-polymer-font-awesome": "^1.1.5"
+  },
+  "devDependencies": {
+    "px-starter-kit-design": "^0.7.4",
+    "px-demo": "^1.5.10"
+  }
+}

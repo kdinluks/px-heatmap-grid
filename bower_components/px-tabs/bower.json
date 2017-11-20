@@ -1,0 +1,34 @@
+{
+  "name": "px-tabs",
+  "version": "0.7.0",
+  "main": [
+    "px-tab-set.html"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "gulpfile.js",
+    "sass",
+    "*.md",
+    "test",
+    "scripts",
+    ".github",
+    "OSS_Notice.pdf",
+    "wct.conf.json",
+    "*.png",
+    "npm-debug.log"
+  ],
+  "dependencies": {
+    "polymer": "^1.6.0",
+    "px-theme": "^2.0.1",
+    "iron-pages": "PolymerElements/iron-pages",
+    "iron-a11y-keys": "^1.0.7"
+  },
+  "devDependencies": {
+    "px-starter-kit-design": "^0.7.0",
+    "px-code-design": "^1.1.0",
+    "px-toggle-design": "^1.1.0",
+    "px-demo": "^1.4.8"
+  }
+}
